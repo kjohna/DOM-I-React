@@ -1,0 +1,35 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.digits {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: 1px solid red;
+}
+
+.digit {
+  display: inline-block;
+  font-size: 80px;
+}
+
+.redDigit {
+  color: red;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.button {
+  width: 30%;
+  border: 1px solid blue;
+}
