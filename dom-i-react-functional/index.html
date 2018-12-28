@@ -13,11 +13,11 @@
       color: blue;
     }
   </style>
+  <link href="https://fonts.googleapis.com/css?family=Bangers|Titillium+Web" rel="stylesheet">
+  <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-  <div id="root1"></div>
-  <div id="root2"></div>
-  <div id="root3"></div>
+  <div id="root" class="container"></div>
 </body>
 
 <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
@@ -78,13 +78,25 @@
 
   const Nav = props => {
     const navItems = props.navItems;
-    console.log("nav Items: ", navItems);
     const navLinks = navItems.map((navLink) => 
       <NavLink key={`navLink-${navLink}`} name={navLink} />
     );
-    console.log(navLinks);
     return (
       <nav>{navLinks}</nav>
+    );
+  }
+
+  const Logo = props => {
+    return (
+      <img src={props.logoSrc} class="logo"/>
+    );
+  }
+
+  const Header = props => {
+    const nav = <Nav navItems={props.navItems} />;
+    const logo = <Logo logoSrc={props.logoSrc} />;
+    return (
+      <header>{nav}{logo}</header>
     );
   }
 
@@ -97,22 +109,26 @@
   }
 
   const App = props => {
-    let navItems = []
+    // get navItems from siteContent
+    let navItems = [];
     for (const navItem in siteContent.nav) {
       if (/^nav-item/.test(navItem)) {
-        navItems.push(siteContent.nav[navItem]); // `<NavLink name="${siteContent.nav[nav]}" />\n `
+        navItems.push(siteContent.nav[navItem]);
       }
     }
+    // get logoSrc for header from siteContent
+    const logoSrc=siteContent.nav["img-src"];
+
     return (
       <div>
-        <Nav navItems={navItems} />
+        <Header navItems={navItems} logoSrc={logoSrc}/>
         <HelloComponent />
         <MyButton />
         <MyInput />
       </div>
     );
   };
-  ReactDOM.render(<App />, document.getElementById('root1'));
+  ReactDOM.render(<App />, document.getElementById('root'));
   
 </script>
 </html>
