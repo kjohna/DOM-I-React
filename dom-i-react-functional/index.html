@@ -24,11 +24,67 @@
 <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
 <script type="text/babel">
+  const siteContent = {
+    "nav": {
+      "nav-item-1": "Services",
+      "nav-item-2": "Product",
+      "nav-item-3": "Vision",
+      "nav-item-4": "Features",
+      "nav-item-5": "About",
+      "nav-item-6": "Contact",
+      "img-src": "img/logo.png"
+    },
+    "cta": {
+      "h1": "DOM\r\nIs\r\nAwesome",
+      "button": "Get Started",
+      "img-src": "img/header-img.png"
+    },
+    "main-content": {
+      "features-h4":"Features",
+      "features-content": "Features content elementum magna eros, ac posuere elvit tempus et. Suspendisse vel tempus odio, in interdutm nisi. Suspendisse eu ornare nisl. Nullam convallis augue justo, at imperdiet metus scelerisque quis.",
+      "about-h4":"About",
+      "about-content": "About content elementum magna eros, ac posuere elvit tempus et. Suspendisse vel tempus odio, in interdutm nisi. Suspendisse eu ornare nisl. Nullam convallis augue justo, at imperdiet metus scelerisque quis.",
+      "middle-img-src": "img/mid-page-accent.jpg",
+      "services-h4":"Services",
+      "services-content": "Services content elementum magna eros, ac posuere elvit tempus et. Suspendisse vel tempus odio, in interdutm nisi. Suspendisse eu ornare nisl. Nullam convallis augue justo, at imperdiet metus scelerisque quis.",
+      "product-h4":"Product",
+      "product-content": "Product content elementum magna eros, ac posuere elvit tempus et. Suspendisse vel tempus odio, in interdutm nisi. Suspendisse eu ornare nisl. Nullam convallis augue justo, at imperdiet metus scelerisque quis.",
+      "vision-h4":"Vision",
+      "vision-content": "Vision content elementum magna eros, ac posuere elvit tempus et. Suspendisse vel tempus odio, in interdutm nisi. Suspendisse eu ornare nisl. Nullam convallis augue justo, at imperdiet metus scelerisque quis.",
+      "new-h4":"New Content",
+      "new-content": "New content elementum magna eros, ac posuere elvit tempus et. Suspendisse vel tempus odio, in interdutm nisi. Suspendisse eu ornare nisl. Nullam convallis augue justo, at imperdiet metus scelerisque quis.",
+      "rabbit-h4":"Rabbit Content",
+      "rabbit-content": "Rabbit content elementum magna eros, ac posuere elvit tempus et. Suspendisse vel tempus odio, in interdutm nisi. Suspendisse eu ornare nisl. Nullam convallis augue justo, at imperdiet metus scelerisque quis.",
+      "alligator-h4":"Alligator Content",
+      "alligator-content": "Alligator content elementum magna eros, ac posuere elvit tempus et. Suspendisse vel tempus odio, in interdutm nisi. Suspendisse eu ornare nisl. Nullam convallis augue justo, at imperdiet metus scelerisque quis.",
+    },
+    "contact": {
+      "contact-h4" : "Contact",
+      "address" : "123 Way 456 Street\r\nSomewhere, USA",
+      "phone" : "1 (888) 888-8888",
+      "email" : "sales@greatidea.io",
+    },
+    "footer": {
+      "copyright" : "Copyright Great Idea! 2018"
+    },
+  };
   const HelloComponent = props => <h1>Hello from React Component Land!</h1>;
 
   const NavLink = props => {
     return (
       <a href="#">{props.name}</a>
+    );
+  }
+
+  const Nav = props => {
+    const navItems = props.navItems;
+    console.log("nav Items: ", navItems);
+    const navLinks = navItems.map((navLink) => 
+      <NavLink key={`navLink-${navLink}`} name={navLink} />
+    );
+    console.log(navLinks);
+    return (
+      <nav>{navLinks}</nav>
     );
   }
 
@@ -41,11 +97,15 @@
   }
 
   const App = props => {
+    let navItems = []
+    for (const navItem in siteContent.nav) {
+      if (/^nav-item/.test(navItem)) {
+        navItems.push(siteContent.nav[navItem]); // `<NavLink name="${siteContent.nav[nav]}" />\n `
+      }
+    }
     return (
       <div>
-        <NavLink name="Nav1" />
-        <NavLink name="Nav2" />
-        <NavLink name="Nav3" />
+        <Nav navItems={navItems} />
         <HelloComponent />
         <MyButton />
         <MyInput />
@@ -53,5 +113,6 @@
     );
   };
   ReactDOM.render(<App />, document.getElementById('root1'));
+  
 </script>
 </html>
