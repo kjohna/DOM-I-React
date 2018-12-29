@@ -114,6 +114,57 @@
     );
   }
 
+  const MainContent = props => {
+    const mainContent = props.mainContent;
+    const mainContentKeys = Object.keys(mainContent);
+    const topContentCount = 2;
+    const bottomContentCount = 3;
+    let mainContentFormatted = [];
+    let articleContent = [];
+    
+    // build topContent array
+    for (let i=0; i<mainContentKeys.length; i++) {
+      if (mainContentKeys[i] === "middle-img-src") {
+        // middle img
+      } else {
+        articleContent.push([mainContent[mainContentKeys[i]], mainContent[mainContentKeys[++i]]]);
+      }
+    }
+    console.log(articleContent);
+    
+    mainContentFormatted = articleContent.map(article =>
+      <TopContent content={article} />
+    );
+
+    return (
+      <section className="main-content">
+        {mainContentFormatted}
+      </section>
+    );
+
+  }
+
+  const MainArticle = props => {
+    const articleContent = props.articleContent;
+    // console.log(articleContent);
+    return (
+      <div className="text-content">
+        <h4>{articleContent[0]}</h4>
+        <p>{articleContent[1]}</p>
+      </div>
+    );
+  }
+
+  const TopContent = props => {
+    const content = props.content;
+
+    return (
+      <div className="top-content">
+        <MainArticle articleContent={content} />
+      </div>
+    );
+  }
+
   const App = props => {
     // get navItems from siteContent
     let navItems = [];
@@ -126,11 +177,14 @@
     const logoSrc=siteContent.nav["img-src"];
     // get CTA content from siteContent
     const ctaContent=siteContent.cta;
+    // get main-content from siteContent
+    const mainContent=siteContent["main-content"];
 
     return (
       <div>
         <Header navItems={navItems} logoSrc={logoSrc}/>
         <Cta ctaContent={ctaContent} />
+        <MainContent mainContent={mainContent} />
       </div>
     );
   };
