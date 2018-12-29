@@ -88,7 +88,7 @@
 
   const Logo = props => {
     return (
-      <img src={props.logoSrc} class="logo"/>
+      <img src={props.logoSrc} className="logo"/>
     );
   }
 
@@ -100,12 +100,18 @@
     );
   }
 
-  const MyButton = props => {
-    return (<button>Click this button</button>);
-  }
-
-  const MyInput = props => {
-    return (<input type="text" placeholder="I am an Input" />);
+  const Cta = props => {
+    const ctaContent = props.ctaContent;
+    console.log()
+    return (
+      <section className="cta">
+        <div className="cta-text">
+          <h1>{ctaContent["h1"]}</h1>
+          <button>{ctaContent["button"]}</button>
+        </div>
+        <img id="cta-img" src={ctaContent["img-src"]} />
+      </section>
+    );
   }
 
   const App = props => {
@@ -118,13 +124,13 @@
     }
     // get logoSrc for header from siteContent
     const logoSrc=siteContent.nav["img-src"];
+    // get CTA content from siteContent
+    const ctaContent=siteContent.cta;
 
     return (
       <div>
         <Header navItems={navItems} logoSrc={logoSrc}/>
-        <HelloComponent />
-        <MyButton />
-        <MyInput />
+        <Cta ctaContent={ctaContent} />
       </div>
     );
   };
