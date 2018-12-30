@@ -115,39 +115,76 @@
   }
 
   const MainContent = props => {
+    // main content is 3 sections:
+    // 1) top-content
+    // 2) middle banner
+    // 3) bottom-content
+    // expect an object containing all of main content, in format of:
+    // {article-heading:heading, 
+    //  article-content: content}
+    // with the exception of the source for the middle banner which is 
+    // {"middle-img-src":"path/to/src.jpg"}
+
+    // assign the content object
     const mainContent = props.mainContent;
+    // assign an array of mainContent's keys to iterate over and handle elements of the content
     const mainContentKeys = Object.keys(mainContent);
+    // set number of articles in top and bottom sections
     const topContentCount = 2;
     const bottomContentCount = 3;
+    // need these for later
     let mainContentFormatted = [];
     let formattedContent = [];
     
-    // build formattedContent array
+    // build formattedContent array: create react elements for the middle banner image and each article
     for (let i=0; i<mainContentKeys.length; i++) {
       if (mainContentKeys[i] === "middle-img-src") {
         // middle img
-        formattedContent.push([mainContent[mainContentKeys[i]]]);
+        formattedContent.push(<BannerImg key="middle-img" imgSrc={mainContent[mainContentKeys[i]]} className="middle-img"/>);
       } else {
-        formattedContent.push([mainContent[mainContentKeys[i]], mainContent[mainContentKeys[++i]]]);
+        // article, remember heading is adjacent to content
+        formattedContent.push(<MainArticle key={mainContent[mainContentKeys[i]]} articleContent={[mainContent[mainContentKeys[i]], mainContent[mainContentKeys[++i]]]} />);
       }
     }
-    console.log(formattedContent);
-    
+    // console.log("formattedContent", formattedContent);
+    // now we have an array with react elements of articles and the middle banner image. split into top and bottom sections based on how many articles were set to be in each section (topContentCount and bottomContentCount)
     let articleCount = 0;
-    mainContentFormatted = formattedContent.map(article => {
-      if(article.length === 1) {
-        // case for a banner since array only contains img src
-        return <BannerImg key={article[0]} imgSrc={article[0]} className="middle-img"/>   
+    let tmpSection = [];
+    let tmpMidImg = [];
+    formattedContent.forEach(element => {
+      if (element.key === "middle-img") {
+        // store the middle image element, will insert between top and bottom sections later
+        tmpMidImg.push(element);
       } else {
         if (articleCount < topContentCount) {
-          articleCount ++;
-          return <TopContent key={article[0]} content={article} />
-        } else if (articleCount < (topContentCount + bottomContentCount)) {
+          // create a tmp array with correct number of articles for top-content
+          tmpSection.push(element);
           articleCount++;
-          return <BottomContent key={article[0]} content={article} />
+          if (articleCount === topContentCount) {
+            // once we have the correct number of articles push this to the mainContentFormatted array
+            mainContentFormatted.push(tmpSection);
+            tmpSection = [];
+          }
+        } else if (articleCount < topContentCount + bottomContentCount) {
+          // create a tmp array with correct number of articles for bottom-content
+          tmpSection.push(element);
+          articleCount++;
+          if (articleCount === topContentCount + bottomContentCount) {
+            // once we have the correct number of articles push this to the mainContentFormatted array
+            mainContentFormatted.push(tmpSection);
+            tmpSection = [];
+          }
         }
       }
     });
+    // mainContentFormatted now contains two arrays, one for top-content and one for bottom-content
+    // insert the middle image between top and bottom content
+    mainContentFormatted.splice(1,0,tmpMidImg[0]);
+    // console.log(mainContentFormatted);
+    // create a TopContent element from the first array
+    mainContentFormatted[0]=<TopContent key="top-content" content={mainContentFormatted[0]} />;
+    // create a BottomContent element from the last array
+    mainContentFormatted[2]=<BottomContent key="bottom-content" content={mainContentFormatted[2]} />;
 
     return (
       <section className="main-content">
@@ -172,9 +209,7 @@
     const content = props.content;
 
     return (
-      <div className="top-content">
-        <MainArticle articleContent={content} />
-      </div>
+      <div className="top-content">{content}</div>
     );
   }
 
@@ -182,9 +217,7 @@
     const content = props.content;
 
     return (
-      <div className="bottom-content">
-        <MainArticle articleContent={content} />
-      </div>
+      <div className="bottom-content">{content}</div>
     );
   }
 
