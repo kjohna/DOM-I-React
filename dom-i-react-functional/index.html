@@ -120,21 +120,34 @@
     const topContentCount = 2;
     const bottomContentCount = 3;
     let mainContentFormatted = [];
-    let articleContent = [];
+    let formattedContent = [];
     
-    // build topContent array
+    // build formattedContent array
     for (let i=0; i<mainContentKeys.length; i++) {
       if (mainContentKeys[i] === "middle-img-src") {
         // middle img
+        formattedContent.push([mainContent[mainContentKeys[i]]]);
       } else {
-        articleContent.push([mainContent[mainContentKeys[i]], mainContent[mainContentKeys[++i]]]);
+        formattedContent.push([mainContent[mainContentKeys[i]], mainContent[mainContentKeys[++i]]]);
       }
     }
-    console.log(articleContent);
+    console.log(formattedContent);
     
-    mainContentFormatted = articleContent.map(article =>
-      <TopContent content={article} />
-    );
+    let articleCount = 0;
+    mainContentFormatted = formattedContent.map(article => {
+      if(article.length === 1) {
+        // case for a banner since array only contains img src
+        return <BannerImg key={article[0]} imgSrc={article[0]} className="middle-img"/>   
+      } else {
+        if (articleCount < topContentCount) {
+          articleCount ++;
+          return <TopContent key={article[0]} content={article} />
+        } else if (articleCount < (topContentCount + bottomContentCount)) {
+          articleCount++;
+          return <BottomContent key={article[0]} content={article} />
+        }
+      }
+    });
 
     return (
       <section className="main-content">
@@ -162,6 +175,25 @@
       <div className="top-content">
         <MainArticle articleContent={content} />
       </div>
+    );
+  }
+
+  const BottomContent = props => {
+    const content = props.content;
+
+    return (
+      <div className="bottom-content">
+        <MainArticle articleContent={content} />
+      </div>
+    );
+  }
+
+  const BannerImg = props => {
+    const imgSrc = props.imgSrc;
+    const className=props.className;
+    
+    return (
+      <img className={className} src={imgSrc} />
     );
   }
 
