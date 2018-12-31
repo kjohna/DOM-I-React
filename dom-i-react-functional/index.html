@@ -198,10 +198,10 @@
     const articleContent = props.articleContent;
     // console.log(articleContent);
     return (
-      <div className="text-content">
+      <article className="text-content">
         <h4>{articleContent[0]}</h4>
         <p>{articleContent[1]}</p>
-      </div>
+      </article>
     );
   }
 
@@ -230,6 +230,29 @@
     );
   }
 
+  const Contact = props => {
+    const contactContent = props.contactContent;
+
+    return (
+      <section className="contact">
+        <h4>{contactContent["contact-h4"]}</h4>
+        <p>{contactContent["address"]}</p>
+        <p>{contactContent["phone"]}</p>
+        <p>{contactContent["email"]}</p>
+        </section>
+    );
+  }
+
+  const Footer = props => {
+    const footerContent = props.footerContent;
+
+    return (
+      <footer>
+        <p>{footerContent["copyright"]}</p>
+      </footer>
+    );
+  }
+
   const App = props => {
     // get navItems from siteContent
     let navItems = [];
@@ -244,12 +267,18 @@
     const ctaContent=siteContent.cta;
     // get main-content from siteContent
     const mainContent=siteContent["main-content"];
+    // get contact content from siteContent
+    const contactContent=siteContent["contact"];
+    // get footer content from siteContent
+    const footerContent=siteContent["footer"];
 
     return (
       <div>
         <Header navItems={navItems} logoSrc={logoSrc}/>
         <Cta ctaContent={ctaContent} />
         <MainContent mainContent={mainContent} />
+        <Contact contactContent={contactContent} />
+        <Footer footerContent={footerContent} />
       </div>
     );
   };

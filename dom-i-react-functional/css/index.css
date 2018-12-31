@@ -163,6 +163,9 @@ header .logo {
 }
 
 /* Contact Styles */
+.contact {
+  white-space: pre;
+}
 
 .contact p {
     margin: 15px 0;
