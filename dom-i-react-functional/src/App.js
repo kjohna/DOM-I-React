@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import Header from './components/HeaderComponents/Header';
+import imgTest from './components/img/logo.png';
 const siteContent = {
   "nav": {
     "nav-item-1": "Services",
@@ -9,7 +10,7 @@ const siteContent = {
     "nav-item-4": "Features",
     "nav-item-5": "About",
     "nav-item-6": "Contact",
-    "img-src": "http://localhost:3000/src/components/img/logo.png"
+    "img-src": {imgTest}
   },
   "cta": {
     "h1": "DOM\r\nIs\r\nAwesome",
